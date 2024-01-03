@@ -1,0 +1,14 @@
+[
+    {
+        "duration": 2,
+        "checkpoint": [37, 45, 89]
+    },
+    {
+        "duration": 2,
+        "checkpoint": [86, 58, 103]
+    },
+    {
+        "duration": 2,
+        "checkpoint":[172, 47, 84]
+    }
+]

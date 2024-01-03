@@ -4,7 +4,8 @@ import json
 import time
 
 import numpy as np
-import sympy as sp
+
+#  import sympy as sp
 
 from robotic_arm import RoboticArm
 from servo import AngleError
@@ -192,7 +193,12 @@ def record_arrow_keys(stdscr):
                 continue
 
         if key == ord("s"):
-            checkpoints.append((orientation, alpha1, alpha2))
+            checkpoints.append(
+                {
+                    "duration": 2,
+                    "checkpoint": (orientation, alpha1, alpha2),
+                }
+            )
             stdscr.addstr(1, 0, "CP saved")
 
         if key == ord("q"):
@@ -207,4 +213,4 @@ arm.reset()
 
 print("checkpoints", checkpoints)
 with open(args.output_file, "w") as f:
-    json.dump(checkpoints, f)
+    json.dump(checkpoints, f, indent=2)

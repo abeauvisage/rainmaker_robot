@@ -1,10 +1,12 @@
 import json
+import time
 
 from adafruit_servokit import ServoKit
+import RPi.GPIO as GPIO
 
 from servo import AngleError, ServoMotor
 
-ARM_CONFIG_FIELDS = ("num_channels", "servos")
+ARM_CONFIG_FIELDS = ("num_channels", "pump_gpio", "servos")
 SERVO_CONFIG_FIELDS = ("name", "index", "min", "max", "default", "min_pulse", "max_pulse")
 
 
@@ -36,6 +38,11 @@ class RoboticArm:
         if not config:
             raise KeyError(f"Could not load the config file provided ({config_filename})")
 
+        self._pump_gpio = config["pump_gpio"]
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self._pump_gpio, GPIO.OUT)
+        GPIO.output(self._pump_gpio, GPIO.LOW)
+
         self._kit = ServoKit(channels=config["num_channels"])
         self._servos = {}
         self._servo_configs = {}
@@ -44,6 +51,15 @@ class RoboticArm:
             servo_config["servo"] = self._kit.servo[servo_config.pop("index")]
             self._servos[key] = ServoMotor(**servo_config)
             self._servo_configs[key] = servo_config
+
+    def __del__(self):
+        GPIO.cleanup()
+
+    def water(self, seconds: int):
+        GPIO.output(self._pump_gpio, GPIO.HIGH)
+        time.sleep(seconds)
+        GPIO.output(self._pump_gpio, GPIO.LOW)
+        time.sleep(2)
 
     def move_servo(self, name: str, angle: int):
         self._servos[name].to(angle)

@@ -39,6 +39,7 @@ class ServoMotor:
             raise AngleError(f"angle {value} not within the motor's range [{self.MIN},{self.MAX}]")
 
     def to(self, angle: int):
+        angle = int(angle)
         if angle > self.angle:
             for i in range(self.angle, angle + 1, 1):
                 self.angle = i

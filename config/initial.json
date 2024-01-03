@@ -1,0 +1,33 @@
+{
+    "num_channels": 16,
+    "pump_gpio": 17,
+    "servos": [
+        {
+            "name": "base",
+            "index": 0,
+            "min": 0,
+            "max":180,
+            "default":90,
+            "min_pulse":500,
+            "max_pulse":"2500"
+        },
+        {
+            "name": "joint1",
+            "index": 4,
+            "min": 45,
+            "max":135,
+            "default":110,
+            "min_pulse":500,
+            "max_pulse":"2500"
+        },
+        {
+            "name": "joint2",
+            "index": 8,
+            "min": 10,
+            "max":135,
+            "default":120,
+            "min_pulse":500,
+            "max_pulse":"2500"
+        }
+    ]
+}
